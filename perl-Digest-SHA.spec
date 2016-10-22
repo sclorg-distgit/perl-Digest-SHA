@@ -2,8 +2,8 @@
 
 Name:           %{?scl_prefix}perl-Digest-SHA
 Epoch:          1
-Version:        5.95
-Release:        367%{?dist}
+Version:        5.96
+Release:        1%{?dist}
 Summary:        Perl extension for SHA-1/224/256/384/512
 License:        GPL+ or Artistic
 Group:          Development/Libraries
@@ -12,6 +12,10 @@ Source0:        http://www.cpan.org/authors/id/M/MS/MSHELOR/Digest-SHA-%{version
 # Since 5.80, upstream overrides CFLAGS because they think it improves
 # performance. Revert it.
 Patch0:         Digest-SHA-5.93-Reset-CFLAGS.patch
+BuildRequires:  coreutils
+BuildRequires:  findutils
+BuildRequires:  gcc
+BuildRequires:  make
 BuildRequires:  %{?scl_prefix}perl
 BuildRequires:  %{?scl_prefix}perl-devel
 BuildRequires:  %{?scl_prefix}perl-generators
@@ -62,8 +66,8 @@ chmod -x examples/*
 
 %install
 %{?scl:scl enable %{scl} '}make pure_install DESTDIR='%{buildroot}'%{?scl:'}
-find '%{buildroot}' -type f -name .packlist -exec rm -f {} +
-find '%{buildroot}' -type f -name '*.bs' -size 0 -exec rm -f {} +
+find '%{buildroot}' -type f -name .packlist -delete
+find '%{buildroot}' -type f -name '*.bs' -size 0 -delete
 %{_fixperms} '%{buildroot}'/*
 
 %check
@@ -78,6 +82,9 @@ find '%{buildroot}' -type f -name '*.bs' -size 0 -exec rm -f {} +
 %{_mandir}/man3/*
 
 %changelog
+* Fri Jul 29 2016 Petr Pisar <ppisar@redhat.com> - 1:5.96-1
+- 5.96 bump
+
 * Mon Jul 11 2016 Petr Pisar <ppisar@redhat.com> - 1:5.95-367
 - SCL
 
